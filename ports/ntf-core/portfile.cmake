@@ -2,9 +2,14 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO bloomberg/ntf-core
     REF "${VERSION}"
-    SHA512 57662d2dd105b2781e580623c26cd7bde84fce8374bbd70c18595a5f6934869b7a570f0d3c2e17e115f6c7eb1067541f8d19523639815b285324061f807d3179
+    SHA512 6982060abfdbaad921d4abbcd5dffdfd15516698c478f219498d84b46b0fad29664b7325abc5dcb4dd74c3c0dd7d84c7586aa3b4b888ac150744c48ce762f024
     HEAD_REF main
     PATCHES dont-use-lib64.patch
+)
+
+vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
+    FEATURES
+        openssl NTF_BUILD_WITH_OPENSSL
 )
 
 # ntf-core requires debugger information to for dev tooling purposes, so we just fake it
@@ -12,6 +17,7 @@ vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS "-DNTF_BUILD_WITH_USAGE_EXAMPLES=0"
             "-DNTF_TOOLCHAIN_DEBUGGER_PATH=NOT-FOUND"
+            ${FEATURE_OPTIONS}
 )
 
 vcpkg_cmake_build()
@@ -57,7 +63,7 @@ function(ntf_core_fixup_ntc_config)
     endforeach()
 endfunction()
 
-vcpkg_cmake_config_fixup(CONFIG_PATH "lib/cmake" PACKAGE_NAME nts)
+vcpkg_cmake_config_fixup(PACKAGE_NAME ntf-core CONFIG_PATH "lib/cmake")
 ntf_core_fixup_ntc_config()
 
 # Handle copyright

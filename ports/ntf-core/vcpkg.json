@@ -1,7 +1,6 @@
 {
   "name": "ntf-core",
-  "version": "2.1.0",
-  "port-version": 1,
+  "version": "2.5.0",
   "description": "The Network Transport Framework: Core Libraries",
   "license": "Apache-2.0",
   "dependencies": [
@@ -14,5 +13,13 @@
       "name": "vcpkg-cmake-config",
       "host": true
     }
-  ]
+  ],
+  "features": {
+    "openssl": {
+      "description": "Enable openssl support.",
+      "dependencies": [
+        "openssl"
+      ]
+    }
+  }
 }
